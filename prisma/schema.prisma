@@ -6,24 +6,138 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
+  provider = "mysql"
   url      = env("DATABASE_URL")
 }
 
-// enum Role {
-//   Adminstrator
-//   DepartmentHead
-//   Coordinator
-// }
-
-model Student {
-  id       Int    @id @default(autoincrement())
-  email    String
-  password String
+enum UserRole {
+  STUDENT
+  COLLEGE_COORDINATOR
+  INSTRUCTOR
+  ADMIN
+  DEPTHEAD
 }
 
-model Lecturer {
-  id       Int    @id @default(autoincrement())
-  email    String
-  password String
+model User {
+  user_id      String  @id
+  password     String?
+  fname        String?
+  lname        String?
+  email        String?
+  bio          String?
+  photo        String?
+  phone_number String?
+  role         UserRole
+
+
+  students             Student[]
+  college_coordinators College_coordinator[]
+  instractors          Instractor[]
+  feedbacks            feedback[]
+  progresses           Progress[]
+  enrolments           Enrolment[]
+  course_assignments   Course_assignment[]
+}
+
+model Student {
+  user_id String  @id
+  batch   String?
+  Dept    String?
+  college String?
+
+  user User @relation(fields: [user_id], references: [user_id])
+
+  @@index([batch, Dept])
+}
+
+model College_coordinator {
+  user_id String  @id
+  college String?
+
+  user User @relation(fields: [user_id], references: [user_id])
+}
+
+model Instractor {
+  user_id String  @id
+  Dept    String?
+  college String?
+
+  user User @relation(fields: [user_id], references: [user_id])
+}
+
+model Course {
+  course_code    String  @id
+  course_name    String?
+  batch          Int?
+  Dept           String?
+  chapter_length Int?
+  no_week_take   Int?
+  description    String?
+
+  course_events      Course_event[]
+  course_outline     Course_outline?
+  feedbacks          feedback[]
+  progresses         Progress[]
+  enrolments         Enrolment[]
+  course_assignments Course_assignment[]
+}
+
+model Course_event {
+  event_id    Int       @id @default(autoincrement())
+  course_code String
+  event_name  String?
+  event_type  String?
+  event_date  DateTime?
+  discription String?
+
+  course Course @relation(fields: [course_code], references: [course_code])
+}
+
+model feedback {
+  feedback_id Int     @id @default(autoincrement())
+  user_id     String
+  course_code String
+  rating      Int?
+  comment     String?
+
+  user   User   @relation(fields: [user_id], references: [user_id])
+  course Course @relation(fields: [course_code], references: [course_code])
+}
+
+model Course_outline {
+  course_code       String  @id
+  course_objectives String?
+  topics            String?
+  learning_outcomes String?
+  no_chapterperweek Int?
+
+  course Course @relation(fields: [course_code], references: [course_code])
+}
+
+model Progress {
+  PROGRESS_ID      Int    @id @default(autoincrement())
+  user_id          String
+  course_code      String
+  percent_complete Int?
+
+  user   User   @relation(fields: [user_id], references: [user_id])
+  course Course @relation(fields: [course_code], references: [course_code])
+}
+
+model Enrolment {
+  enrolment_id Int    @id @default(autoincrement())
+  user_id      String
+  course_code  String
+
+  user   User   @relation(fields: [user_id], references: [user_id])
+  course Course @relation(fields: [course_code], references: [course_code])
+}
+
+model Course_assignment {
+  assignment_id Int    @id @default(autoincrement())
+  user_id       String
+  course_code   String
+
+  user   User   @relation(fields: [user_id], references: [user_id])
+  course Course @relation(fields: [course_code], references: [course_code])
 }
