@@ -10,12 +10,12 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-enum UserRole {
+enum Role {
   STUDENT
   COLLEGE_COORDINATOR
-  INSTRUCTOR
+  LECTURER
   ADMIN
-  DEPTHEAD
+  DEPT_HEAD
 }
 
 model User {
@@ -27,50 +27,24 @@ model User {
   bio          String?
   photo        String?
   phone_number String?
-  role         UserRole
+  department   String?
+  college      String?
+  batch        String?
+  role         Role
 
-  students             Student[]
-  college_coordinators College_coordinator[]
-  instructors          Instructor[]
   feedbacks            feedback[]
   progresses           Progress[]
   enrolments           Enrolment[]
   course_assignments   Course_assignment[]
 }
 
-model Student {
-  user_id String  @id
-  batch   Int
-  Dept    String?
-  college String?
-
-  user User @relation(fields: [user_id], references: [user_id])
-
-  @@index([batch, Dept])
-}
-
-model College_coordinator {
-  user_id String  @id
-  college String?
-
-  user User @relation(fields: [user_id], references: [user_id])
-}
-
-model Instructor {
-  user_id String  @id
-  Dept    String?
-  college String?
-
-  user User @relation(fields: [user_id], references: [user_id])
-}
-
 model Course {
   course_code    String  @id @default(uuid())
   course_name    String
   batch          Int
-  Dept           String?
-  chapter_length Int?
-  no_week_take   Int?
+  department     String
+  chapter_length Int
+  no_week_take   Int
   description    String?
 
   course_events      Course_event[]
@@ -83,10 +57,10 @@ model Course {
 
 model Course_event {
   event_id    Int       @id @default(autoincrement())
-  course_code String
-  event_name  String?
-  event_type  String?
-  event_date  DateTime?
+  course_code String 
+  event_name  String
+  event_type  String
+  event_date  DateTime
   discription String?
 
   course Course @relation(fields: [course_code], references: [course_code])
@@ -94,9 +68,9 @@ model Course_event {
 
 model feedback {
   feedback_id Int     @id @default(autoincrement())
-  user_id     String
+  user_id     String  // STUDENT User_id
   course_code String
-  rating      Int?
+  rating      Int
   comment     String?
 
   user   User   @relation(fields: [user_id], references: [user_id])
@@ -115,7 +89,7 @@ model Course_outline {
 
 model Progress {
   progress_id      Int    @id @default(autoincrement())
-  user_id          String
+  user_id          String // LECTURER User_id
   course_code      String
   percent_complete Int?
 
@@ -125,7 +99,7 @@ model Progress {
 
 model Enrolment {
   enrolment_id Int    @id @default(autoincrement())
-  user_id      String
+  user_id      String // STUDENT user_id
   course_code  String
 
   user   User   @relation(fields: [user_id], references: [user_id])
@@ -134,7 +108,7 @@ model Enrolment {
 
 model Course_assignment {
   assignment_id Int    @id @default(autoincrement())
-  user_id       String
+  user_id       String // LECTURER user_id
   course_code   String
 
   user   User   @relation(fields: [user_id], references: [user_id])
