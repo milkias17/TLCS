@@ -41,7 +41,7 @@ model User {
 model Course {
   course_code    String  @id
   course_name    String
-  batch          String
+  batch          Int
   department     String
   chapter_length Int
   no_week_take   Int
