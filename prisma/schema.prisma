@@ -6,7 +6,7 @@ generator client {
 }
 
 datasource db {
-  provider = "mysql"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
@@ -36,6 +36,14 @@ model User {
   progresses           Progress[]
   enrolments           Enrolment[]
   course_assignments   Course_assignment[]
+  Session              Session?
+}
+
+model Session {
+  user_id String @unique
+  uuid    String
+
+  user User @relation(fields: [user_id], references: [user_id])
 }
 
 model Student {

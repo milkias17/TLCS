@@ -1,6 +1,16 @@
 version: "3.1"
 
 services:
+  web:
+    build: .
+    depends_on:
+      db:
+        condition: service_healthy
+    ports:
+      - 3000:3000
+    volumes:
+      - .:/app
+
   db:
     image: postgres
     restart: always
@@ -11,14 +21,6 @@ services:
       - pgdata:/var/lib/postgresql/data
     ports:
       - 5432:5432
-  web:
-    build: .
-    depends_on:
-      - db
-    ports:
-      - 3000:3000
-    volumes:
-      - .:/app
 
 volumes:
   pgdata:

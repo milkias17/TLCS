@@ -1,14 +1,25 @@
 import { UserRole } from "@prisma/client";
 
 /**
-  *  Returns a string representation of a user role
-  */
-export function roleMapper(role: UserRole): string {
-  if (role == UserRole.DEPTHEAD) {
-    return "departmentHead";
-  } else if (role == UserRole.COLLEGE_COORDINATOR) {
-    return "coordinator"
-  } else {
-    return role.toLowerCase();
+ *  Returns a UserRole object from string representation
+ */
+export function roleMapper(role: string): UserRole {
+  switch (role) {
+    case "student":
+      return UserRole.STUDENT;
+    case "college_coordinator":
+      return UserRole.COLLEGE_COORDINATOR;
+    case "instructor":
+      return UserRole.INSTRUCTOR;
+    case "admin":
+      return UserRole.ADMIN;
+    case "depthead":
+      return UserRole.DEPTHEAD;
+    default:
+      throw new Error("Invalid role argument");
   }
+}
+
+export function capitalize(text: string): string {
+  return text[0] + text.slice(1).toLowerCase();
 }
