@@ -6,24 +6,111 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
+  provider = "mysql"
   url      = env("DATABASE_URL")
 }
 
-// enum Role {
-//   Adminstrator
-//   DepartmentHead
-//   Coordinator
-// }
-
-model Student {
-  id       Int    @id @default(autoincrement())
-  email    String
-  password String
+enum Role {
+  STUDENT
+  COLLEGE_COORDINATOR
+  LECTURER
+  ADMIN
+  DEPT_HEAD
 }
 
-model Lecturer {
-  id       Int    @id @default(autoincrement())
-  email    String
-  password String
+model User {
+  user_id      String   @id @default(uuid())
+  password     String
+  fname        String
+  lname        String
+  email        String   @unique
+  bio          String?
+  photo        String?
+  phone_number String?
+  department   String?
+  college      String?
+  batch        String?
+  role         Role
+
+  feedbacks            feedback[]
+  progresses           Progress[]
+  enrolments           Enrolment[]
+  course_assignments   Course_assignment[]
+}
+
+model Course {
+  course_code    String  @id @default(uuid())
+  course_name    String
+  batch          Int
+  department     String
+  chapter_length Int
+  no_week_take   Int
+  description    String?
+
+  course_events      Course_event[]
+  course_outline     Course_outline?
+  feedbacks          feedback[]
+  progresses         Progress[]
+  enrolments         Enrolment[]
+  course_assignments Course_assignment[]
+}
+
+model Course_event {
+  event_id    Int       @id @default(autoincrement())
+  course_code String 
+  event_name  String
+  event_type  String
+  event_date  DateTime
+  discription String?
+
+  course Course @relation(fields: [course_code], references: [course_code])
+}
+
+model feedback {
+  feedback_id Int     @id @default(autoincrement())
+  user_id     String  // STUDENT User_id
+  course_code String
+  rating      Int
+  comment     String?
+
+  user   User   @relation(fields: [user_id], references: [user_id])
+  course Course @relation(fields: [course_code], references: [course_code])
+}
+
+model Course_outline {
+  course_code       String  @id
+  course_objectives String?
+  topics            String?
+  learning_outcomes String?
+  no_chapterperweek Int?
+
+  course Course @relation(fields: [course_code], references: [course_code])
+}
+
+model Progress {
+  progress_id      Int    @id @default(autoincrement())
+  user_id          String // LECTURER User_id
+  course_code      String
+  percent_complete Int?
+
+  user   User   @relation(fields: [user_id], references: [user_id])
+  course Course @relation(fields: [course_code], references: [course_code])
+}
+
+model Enrolment {
+  enrolment_id Int    @id @default(autoincrement())
+  user_id      String // STUDENT user_id
+  course_code  String
+
+  user   User   @relation(fields: [user_id], references: [user_id])
+  course Course @relation(fields: [course_code], references: [course_code])
+}
+
+model Course_assignment {
+  assignment_id Int    @id @default(autoincrement())
+  user_id       String // LECTURER user_id
+  course_code   String
+
+  user   User   @relation(fields: [user_id], references: [user_id])
+  course Course @relation(fields: [course_code], references: [course_code])
 }

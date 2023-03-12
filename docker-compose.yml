@@ -17,5 +17,5 @@ services:
       - db
     ports:
       - 3000:3000
-volumes:
-  pgdata:
+    volumes:
+      - .:/app
