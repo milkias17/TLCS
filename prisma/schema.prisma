@@ -19,11 +19,11 @@ enum Role {
 }
 
 model User {
-  user_id      String  @id
+  user_id      String   @id @default(uuid())
   password     String
   fname        String
   lname        String
-  email        String @unique
+  email        String   @unique
   bio          String?
   photo        String?
   phone_number String?
@@ -39,9 +39,9 @@ model User {
 }
 
 model Course {
-  course_code    String  @id
+  course_code    String  @id @default(uuid())
   course_name    String
-  batch          String
+  batch          Int
   department     String
   chapter_length Int
   no_week_take   Int
@@ -68,7 +68,7 @@ model Course_event {
 
 model feedback {
   feedback_id Int     @id @default(autoincrement())
-  user_id     String  // Students User_id
+  user_id     String  // STUDENT User_id
   course_code String
   rating      Int
   comment     String?
@@ -89,7 +89,7 @@ model Course_outline {
 
 model Progress {
   progress_id      Int    @id @default(autoincrement())
-  user_id          String // Lecturer User_id
+  user_id          String // LECTURER User_id
   course_code      String
   percent_complete Int?
 
@@ -99,7 +99,7 @@ model Progress {
 
 model Enrolment {
   enrolment_id Int    @id @default(autoincrement())
-  user_id      String // Students user_id
+  user_id      String // STUDENT user_id
   course_code  String
 
   user   User   @relation(fields: [user_id], references: [user_id])
@@ -108,7 +108,7 @@ model Enrolment {
 
 model Course_assignment {
   assignment_id Int    @id @default(autoincrement())
-  user_id       String // Lecturers user_id
+  user_id       String // LECTURER user_id
   course_code   String
 
   user   User   @relation(fields: [user_id], references: [user_id])
