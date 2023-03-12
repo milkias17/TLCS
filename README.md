@@ -36,6 +36,17 @@ Start the server
 ```bash
   pnpm run dev
 ```
+- In addition you'd need a postgresql server running with the correct credentials in place.
+
+Alternatively:
+
+1. Install docker and docker-compose
+2. Clone the project ```git clone https://github.com/milkias17/TLCS```
+3. Go to the project directory ```cd TLCS```
+4. Run ```docker-compose up```
+
+Now you are set to go for development!!
+Checkout the project by going to localhost, port 3000
 
 ## Authors
 
