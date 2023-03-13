@@ -1,7 +1,7 @@
 import { UserRole } from "@prisma/client";
 import type { GetStaticPaths, GetStaticProps } from "next";
 import { ParsedUrlQuery } from "querystring";
-import { capitalize, roleMapper } from "@/lib/utils";
+import { prettify, roleMapper } from "@/lib/utils";
 import { FormEvent, useState } from "react";
 import { useRouter } from "next/router";
 
@@ -9,16 +9,12 @@ interface Params extends ParsedUrlQuery {
   role: "student" | "instructor" | "admin" | "depthead" | "college_coordinator";
 }
 
-interface Role {
-  role: UserRole;
-}
-
-export const getStaticProps: GetStaticProps<Role, Params> = (ctx) => {
+export const getStaticProps: GetStaticProps<Params, Params> = (ctx) => {
   const { role } = ctx.params!;
 
   return {
     props: {
-      role: roleMapper(role)
+      role
     },
   };
 };
@@ -36,7 +32,7 @@ export const getStaticPaths: GetStaticPaths = () => {
   };
 };
 
-export default function Login({ role }: Role) {
+export default function Login({ role }: Params) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errorMsg, setErrorMsg] = useState();
@@ -63,8 +59,8 @@ export default function Login({ role }: Role) {
   return (
     <div className="flex justify-center">
       <form method="post" className="form-control gap-4" onSubmit={handleSubmit}>
-        {errorMsg && <h1>errorMsg</h1>}
-        <h1 className="text-center text-3xl">{capitalize(role)} Login</h1>
+        {errorMsg && <h1 className="text-center text-3xl text-red-500 my-4">{errorMsg}</h1>}
+        <h1 className="text-center text-3xl">{prettify(role)} Login</h1>
         <label htmlFor="email" className="input-group">
           <span className="hidden w-1/2 sm:inline-flex">Email</span>
           <input

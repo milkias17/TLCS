@@ -20,6 +20,13 @@ export function roleMapper(role: string): UserRole {
   }
 }
 
-export function capitalize(text: string): string {
-  return text[0] + text.slice(1).toLowerCase();
+export function prettify(text: string): string {
+  switch (text) {
+    case "depthead":
+      return "Department Head";
+    case "college_coordinator":
+      return "College Coordinator";
+    default:
+      return text[0].toUpperCase() + text.slice(1).toLowerCase();
+  }
 }

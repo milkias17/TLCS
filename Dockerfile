@@ -6,5 +6,4 @@ RUN npm install -g pnpm
 RUN pnpm install
 EXPOSE 3000
 COPY . .
-RUN pnpx prisma generate
 CMD ["npm", "run", "dev"]
