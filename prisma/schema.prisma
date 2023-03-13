@@ -10,12 +10,12 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-enum Role {
+enum UserRole {
   STUDENT
   COLLEGE_COORDINATOR
-  LECTURER
+  INSTRUCTOR
   ADMIN
-  DEPT_HEAD
+  DEPTHEAD
 }
 
 model User {
@@ -30,7 +30,7 @@ model User {
   department   String?
   college      String?
   batch        String?
-  role         Role
+  role         UserRole
 
   feedbacks            feedback[]
   progresses           Progress[]
@@ -42,7 +42,7 @@ model Course {
   course_code    String  @id @default(uuid())
   course_name    String
   batch          Int
-  department     String
+  dept     String
   chapter_length Int
   no_week_take   Int
   description    String?
