@@ -72,6 +72,7 @@ model feedback {
   course_code String
   rating      Int
   comment     String?
+  no_chapter_completed Int?
 
   user   User   @relation(fields: [user_id], references: [user_id])
   course Course @relation(fields: [course_code], references: [course_code])
@@ -89,7 +90,7 @@ model Course_outline {
 
 model Progress {
   progress_id          Int    @id @default(autoincrement())
-  user_id              String // STUDENT User_id
+  user_id              String // LECTURER User_id
   course_code          String
   percent_complete     Int?
   no_chapter_completed Int?
