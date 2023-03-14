@@ -32,10 +32,10 @@ model User {
   batch        String?
   role         UserRole
 
-  feedbacks          feedback[]
-  progresses         Progress[]
-  enrolments         Enrolment[]
-  course_assignments Course_assignment[]
+  feedbacks      feedback[]
+  progresses     Progress[]
+  enrolments     Enrolment[]
+  assign_courses Assign_course[]
 }
 
 model Course {
@@ -47,12 +47,12 @@ model Course {
   no_week_take   Int
   description    String?
 
-  course_events      Course_event[]
-  course_outline     Course_outline?
-  feedbacks          feedback[]
-  progresses         Progress[]
-  enrolments         Enrolment[]
-  course_assignments Course_assignment[]
+  course_events  Course_event[]
+  course_outline Course_outline?
+  feedbacks      feedback[]
+  progresses     Progress[]
+  enrolments     Enrolment[]
+  Assign_course  Assign_course[]
 }
 
 model Course_event {
@@ -67,11 +67,11 @@ model Course_event {
 }
 
 model feedback {
-  feedback_id Int     @id @default(autoincrement())
-  user_id     String // STUDENT User_id
-  course_code String
-  rating      Int
-  comment     String?
+  feedback_id          Int     @id @default(autoincrement())
+  user_id              String // STUDENT User_id
+  course_code          String
+  rating               Int
+  comment              String?
   no_chapter_completed Int?
 
   user   User   @relation(fields: [user_id], references: [user_id])
@@ -108,7 +108,7 @@ model Enrolment {
   course Course @relation(fields: [course_code], references: [course_code])
 }
 
-model Course_assignment {
+model Assign_course {
   assignment_id Int    @id @default(autoincrement())
   user_id       String // LECTURER user_id
   course_code   String
