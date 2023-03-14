@@ -1,9 +1,10 @@
-import { UserRole } from "@prisma/client";
 import type { GetStaticPaths, GetStaticProps } from "next";
 import { ParsedUrlQuery } from "querystring";
-import { prettify, roleMapper } from "@/lib/utils";
-import { FormEvent, useState } from "react";
+import { prettify } from "@/lib/utils";
+import { FormEvent, useContext, useState } from "react";
 import { useRouter } from "next/router";
+import UserContext from "@context/UserContext";
+import { getUser, loginUser } from "@/lib/apiClient";
 
 interface Params extends ParsedUrlQuery {
   role: "student" | "instructor" | "admin" | "depthead" | "college_coordinator";
@@ -14,7 +15,7 @@ export const getStaticProps: GetStaticProps<Params, Params> = (ctx) => {
 
   return {
     props: {
-      role
+      role,
     },
   };
 };
@@ -35,31 +36,34 @@ export const getStaticPaths: GetStaticPaths = () => {
 export default function Login({ role }: Params) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [errorMsg, setErrorMsg] = useState();
+  const [errorMsg, setErrorMsg] = useState("");
+  const { setUser } = useContext(UserContext);
+
   const router = useRouter();
 
   async function handleSubmit(e: FormEvent) {
     e.preventDefault();
-    const resp = await fetch('/api/login', {
-      method: "POST",
-      body: JSON.stringify({
-        email,
-        password,
-        role
-      })
-    })
-    const responseJson = await resp.json();
-    if (!resp.ok) {
-      setErrorMsg(responseJson.error);
-    } else {
-      router.push(`/${role.toLowerCase()}`)
+    const hasError = await loginUser(
+      { email, password, role },
+      router,
+      setErrorMsg
+    );
+    if (!hasError) {
+      const user = await getUser();
+      setUser(user);
     }
   }
 
   return (
     <div className="flex justify-center">
-      <form method="post" className="form-control gap-4" onSubmit={handleSubmit}>
-        {errorMsg && <h1 className="text-center text-3xl text-red-500 my-4">{errorMsg}</h1>}
+      <form
+        method="post"
+        className="form-control gap-4"
+        onSubmit={handleSubmit}
+      >
+        {errorMsg && (
+          <h1 className="text-center text-3xl text-red-500 my-4">{errorMsg}</h1>
+        )}
         <h1 className="text-center text-3xl">{prettify(role)} Login</h1>
         <label htmlFor="email" className="input-group">
           <span className="hidden w-1/2 sm:inline-flex">Email</span>

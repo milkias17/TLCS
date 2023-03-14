@@ -9,7 +9,7 @@ export default async function handler(
     return res.status(401).json({ error: "You have not logged in!" });
   }
 
-  const sessionId = req.cookies.session_id!;
+  const sessionId = req.cookies.sessionId!;
   const session = await prisma.session.findUnique({
     where: {
       uuid: sessionId,
@@ -23,5 +23,9 @@ export default async function handler(
     return res.status(200).json({ error: "Session doesn't exist" });
   }
 
-  res.status(200).json(session?.user);
+  res.status(200).json({
+    fname: session.user.fname,
+    lname: session.user.lname,
+    role: session.user.role,
+  });
 }
