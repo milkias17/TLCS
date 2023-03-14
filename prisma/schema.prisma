@@ -2,11 +2,12 @@
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 generator client {
-  provider = "prisma-client-js"
+  provider      = "prisma-client-js"
+  binaryTargets = ["native", "linux-musl"]
 }
 
 datasource db {
-  provider = "mysql"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
@@ -32,10 +33,47 @@ model User {
   batch        String?
   role         UserRole
 
-  feedbacks          feedback[]
-  progresses         Progress[]
-  enrolments         Enrolment[]
-  course_assignments Course_assignment[]
+  feedbacks            feedback[]
+  progresses           Progress[]
+  enrolments           Enrolment[]
+  course_assignments   Course_assignment[]
+  students             Student[]
+  college_coordinators College_coordinator[]
+  instructors          Instructor[]
+  Session              Session?
+}
+
+model Session {
+  user_id String @unique
+  uuid    String @unique
+
+  user User @relation(fields: [user_id], references: [user_id])
+}
+
+model Student {
+  user_id String  @id
+  batch   Int
+  Dept    String?
+  college String?
+
+  user User @relation(fields: [user_id], references: [user_id])
+
+  @@index([batch, Dept])
+}
+
+model College_coordinator {
+  user_id String  @id
+  college String?
+
+  user User @relation(fields: [user_id], references: [user_id])
+}
+
+model Instructor {
+  user_id String  @id
+  Dept    String?
+  college String?
+
+  user User @relation(fields: [user_id], references: [user_id])
 }
 
 model Course {
