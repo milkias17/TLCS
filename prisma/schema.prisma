@@ -32,11 +32,11 @@ model User {
   college      String?
   batch        String?
   role         UserRole
-
-  feedbacks            feedback[]
-  progresses           Progress[]
-  enrolments           Enrolment[]
-  course_assignments   Course_assignment[]
+  
+  feedbacks      feedback[]
+  progresses     Progress[]
+  enrolments     Enrolment[]
+  assign_courses Assign_course[]
   students             Student[]
   college_coordinators College_coordinator[]
   instructors          Instructor[]
@@ -50,32 +50,6 @@ model Session {
   user User @relation(fields: [user_id], references: [user_id])
 }
 
-model Student {
-  user_id String  @id
-  batch   Int
-  Dept    String?
-  college String?
-
-  user User @relation(fields: [user_id], references: [user_id])
-
-  @@index([batch, Dept])
-}
-
-model College_coordinator {
-  user_id String  @id
-  college String?
-
-  user User @relation(fields: [user_id], references: [user_id])
-}
-
-model Instructor {
-  user_id String  @id
-  Dept    String?
-  college String?
-
-  user User @relation(fields: [user_id], references: [user_id])
-}
-
 model Course {
   course_code    String  @id @default(uuid())
   course_name    String
@@ -85,12 +59,12 @@ model Course {
   no_week_take   Int
   description    String?
 
-  course_events      Course_event[]
-  course_outline     Course_outline?
-  feedbacks          feedback[]
-  progresses         Progress[]
-  enrolments         Enrolment[]
-  course_assignments Course_assignment[]
+  course_events  Course_event[]
+  course_outline Course_outline?
+  feedbacks      feedback[]
+  progresses     Progress[]
+  enrolments     Enrolment[]
+  Assign_course  Assign_course[]
 }
 
 model Course_event {
@@ -105,11 +79,12 @@ model Course_event {
 }
 
 model feedback {
-  feedback_id Int     @id @default(autoincrement())
-  user_id     String // STUDENT User_id
-  course_code String
-  rating      Int
-  comment     String?
+  feedback_id          Int     @id @default(autoincrement())
+  user_id              String // STUDENT User_id
+  course_code          String
+  rating               Int
+  comment              String?
+  no_chapter_completed Int?
 
   user   User   @relation(fields: [user_id], references: [user_id])
   course Course @relation(fields: [course_code], references: [course_code])
@@ -126,10 +101,11 @@ model Course_outline {
 }
 
 model Progress {
-  progress_id      Int    @id @default(autoincrement())
-  user_id          String // LECTURER User_id
-  course_code      String
-  percent_complete Int?
+  progress_id          Int    @id @default(autoincrement())
+  user_id              String // LECTURER User_id
+  course_code          String
+  percent_complete     Int?
+  no_chapter_completed Int?
 
   user   User   @relation(fields: [user_id], references: [user_id])
   course Course @relation(fields: [course_code], references: [course_code])
@@ -144,7 +120,7 @@ model Enrolment {
   course Course @relation(fields: [course_code], references: [course_code])
 }
 
-model Course_assignment {
+model Assign_course {
   assignment_id Int    @id @default(autoincrement())
   user_id       String // LECTURER user_id
   course_code   String
