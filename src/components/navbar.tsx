@@ -14,7 +14,7 @@ export default function NavBar() {
   }
 
   return (
-    <nav className="navbar">
+    <nav className="navbar relative z-10 bg-transparent">
       <Link className="navbar-start link link-primary text-lg" href="/">
         TLCS
       </Link>
