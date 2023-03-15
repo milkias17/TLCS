@@ -2,7 +2,8 @@
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 generator client {
-  provider = "prisma-client-js"
+  provider      = "prisma-client-js"
+  binaryTargets = ["native", "linux-musl"]
 }
 
 datasource db {
@@ -32,10 +33,18 @@ model User {
   batch        String?
   role         UserRole
 
-  feedbacks          feedback[]
-  progresses         Progress[]
-  enrolments         Enrolment[]
-  course_assignments Course_assignment[]
+  feedbacks            feedback[]
+  progresses           Progress[]
+  enrolments           Enrolment[]
+  course_assignments   Course_assignment[]
+  Session              Session?
+}
+
+model Session {
+  user_id String @unique
+  uuid    String @unique
+
+  user User @relation(fields: [user_id], references: [user_id])
 }
 
 model Course {
