@@ -5,6 +5,11 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
+  if (Object.keys(req.query).length !== 0) {
+    const { id } = req.query;
+    req.cookies["sessionId"] = id as string;
+  }
+
   if (!("sessionId" in req.cookies)) {
     return res.status(401).json({ error: "You have not logged in!" });
   }
@@ -20,7 +25,7 @@ export default async function handler(
   });
 
   if (!session) {
-    return res.status(200).json({ error: "Session doesn't exist" });
+    return res.status(401).json({ error: "Session doesn't exist" });
   }
 
   res.status(200).json({

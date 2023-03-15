@@ -30,3 +30,8 @@ export function prettify(text: string): string {
       return text[0].toUpperCase() + text.slice(1).toLowerCase();
   }
 }
+
+export function parseRole(url: string): string {
+  const splitted = url.split("/");
+  return splitted[1].toUpperCase();
+}
