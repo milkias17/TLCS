@@ -26,8 +26,6 @@ export const getServerSideProps: GetServerSideProps<Props> = async () => {
                 deptHeads: [],
             },
         }
-    } finally {
-        await prisma.$disconnect()
     }
 
 };
