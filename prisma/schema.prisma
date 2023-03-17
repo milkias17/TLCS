@@ -19,6 +19,14 @@ enum UserRole {
   DEPTHEAD
 }
 
+enum Departments {
+  SOFTWARE
+  MECHANICAL
+  ELECTRICAL
+  LAW
+  MEDICINE
+}
+
 model User {
   user_id      String   @id @default(uuid())
   password     String
@@ -33,16 +41,45 @@ model User {
   batch        String?
   role         UserRole
 
-  feedbacks      feedback[]
-  progresses     Progress[]
-  enrolments     Enrolment[]
-  assign_courses Assign_course[]
-  Session        Session?
+  feedbacks           feedback[]
+  progresses          Progress[]
+  enrolments          Enrolment[]
+  assign_courses      Assign_course[]
+  Session             Session?
+  Student             Student[]
+  College_coordinator College_coordinator[]
+  Instructor          Instructor[]
 }
 
 model Session {
   user_id String @unique
   uuid    String @unique
+
+  user User @relation(fields: [user_id], references: [user_id])
+}
+
+model Student {
+  user_id String      @id
+  batch   Int
+  dept    Departments
+  college String?
+
+  user User @relation(fields: [user_id], references: [user_id])
+
+  @@index([batch, dept])
+}
+
+model College_coordinator {
+  user_id String  @id
+  college String?
+
+  user User @relation(fields: [user_id], references: [user_id])
+}
+
+model Instructor {
+  user_id String  @id
+  Dept    String?
+  college String?
 
   user User @relation(fields: [user_id], references: [user_id])
 }

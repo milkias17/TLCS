@@ -51,6 +51,7 @@ export default function Login({ role }: Params) {
     if (!hasError) {
       const user = await getUser();
       setUser(user);
+      setErrorMsg("");
     }
   }
 

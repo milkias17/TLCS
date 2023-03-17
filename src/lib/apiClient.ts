@@ -51,11 +51,11 @@ export async function loginUser(
 
   if (!resp.ok) {
     const responseJson = await resp.json();
-    errorHandler(responseJson);
+    errorHandler(responseJson.detail);
     return true;
   } else if (resp.redirected) {
     router?.push(resp.url);
-  } 
+  }
 
   return false;
 }

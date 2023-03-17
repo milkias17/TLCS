@@ -15,10 +15,16 @@ export default function NavBar() {
 
   return (
     <nav className="navbar relative z-10 bg-transparent">
-      <Link className="navbar-start link link-primary text-lg" href="/">
+      <Link className="navbar-start link link-primary text-2xl" href="/">
         TLCS
       </Link>
-      <div className="navbar-end">
+      <div className="navbar-end gap-4">
+        <Link
+          className="link link-primary text-xl"
+          href={`/${user?.role.toLowerCase()}`}
+        >
+          Dashboard
+        </Link>
         {!user ? (
           <div className="dropdown dropdown-end">
             <label tabIndex={0} className="btn m-1">
@@ -40,10 +46,10 @@ export default function NavBar() {
                 </Link>
               </li>
               <li>
-                <Link href="/login/admin">Adminstrator</Link>
+                <Link href="/login/depthead">Department Head</Link>
               </li>
               <li>
-                <Link href="/login/depthead">Department Head</Link>
+                <Link href="/login/admin">Adminstrator</Link>
               </li>
             </ul>
           </div>

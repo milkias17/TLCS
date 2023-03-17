@@ -23,8 +23,10 @@ export default function Layout({ children }: LayoutProps) {
 
   return (
     <UserContext.Provider value={{ user, setUser }}>
-      <NavBar />
-      {children}
+        <NavBar />
+        <div className="drawer drawer-mobile">
+        {children}
+      </div>
     </UserContext.Provider>
   );
 }

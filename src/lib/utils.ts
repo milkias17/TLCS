@@ -1,9 +1,9 @@
-import { UserRole } from "@prisma/client";
+import { Departments, UserRole } from "@prisma/client";
 
 /**
  *  Returns a UserRole object from string representation
  */
-export function roleMapper(role: string): UserRole {
+export function roleMapper(role: string) {
   switch (role) {
     case "student":
       return UserRole.STUDENT;
@@ -17,6 +17,23 @@ export function roleMapper(role: string): UserRole {
       return UserRole.DEPTHEAD;
     default:
       throw new Error("Invalid role argument");
+  }
+}
+
+export function departmentMapper(dept: string) {
+  switch (dept) {
+    case "software":
+      return Departments.SOFTWARE;
+    case "mechanical":
+      return Departments.MECHANICAL;
+    case "electrical":
+      return Departments.ELECTRICAL;
+    case "law":
+      return Departments.LAW;
+    case "medicine":
+      return Departments.MEDICINE;
+    default:
+      throw new Error("Invalid department argument");
   }
 }
 
