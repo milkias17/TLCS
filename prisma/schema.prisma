@@ -32,15 +32,12 @@ model User {
   college      String?
   batch        String?
   role         UserRole
-  
+
   feedbacks      feedback[]
   progresses     Progress[]
   enrolments     Enrolment[]
   assign_courses Assign_course[]
-  students             Student[]
-  college_coordinators College_coordinator[]
-  instructors          Instructor[]
-  Session              Session?
+  Session        Session?
 }
 
 model Session {
