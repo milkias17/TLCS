@@ -26,7 +26,5 @@ export const getServerSideProps: GetServerSideProps<Props> = async () => {
                 students: [],
             },
         }
-    } finally {
-        await prisma.$disconnect()
     }
 }

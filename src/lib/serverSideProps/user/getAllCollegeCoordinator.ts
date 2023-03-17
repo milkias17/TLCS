@@ -26,8 +26,6 @@ export const getServerSideProps: GetServerSideProps<Props> = async () => {
                 collgeCoordinators: [],
             },
         }
-    } finally {
-        await prisma.$disconnect()
     }
 
 };
