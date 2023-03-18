@@ -17,7 +17,7 @@ export default async function handler(
           }),
           no_week_take: parseInt(body.no_week_take),
           chapter_length: parseInt(body.chapter_length),
-          batch: parseInt(body.batch),
+          batch: body.batch,
         },
       });
       res.redirect("/depthead");
@@ -26,5 +26,16 @@ export default async function handler(
       console.log(e);
       res.status(403).json({ detail: "Invalid arguments to create user" });
     }
+  } else if (req.method === "GET") {
+    const user = await prisma.session.findUnique({
+      where: {
+        uuid: req.cookies.sessionId,
+      },
+    });
+    if (!user) {
+      return res.redirect("/");
+    }
+
+    // const courses = await pri
   }
 }

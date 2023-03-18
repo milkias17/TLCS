@@ -4,6 +4,7 @@ export type UserType = {
   fname: string;
   lname: string;
   role: string;
+  user_id: string;
 };
 
 export type UserLogin = {

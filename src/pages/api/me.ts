@@ -33,5 +33,6 @@ export default async function handler(
     fname: session.user.fname,
     lname: session.user.lname,
     role: session.user.role,
+    user_id: session.user_id
   });
 }

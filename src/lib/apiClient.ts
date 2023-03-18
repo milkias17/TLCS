@@ -1,8 +1,11 @@
 import type { UserLogin, UserType } from "@lib/types";
 import { NextRouter } from "next/router";
 
-export async function getUser(router: NextRouter | null = null) {
-  const resp = await fetch("/api/me");
+export async function getUser(
+  url: string | URL = "/api/me",
+  router: NextRouter | null = null
+) {
+  const resp = await fetch(url);
   if (!resp.ok) {
     return null;
   }
@@ -31,7 +34,11 @@ export async function makeRequest(
   }
   if (hasJson) {
     const body = await resp.json();
-    return body.detail;
+    if (!resp.ok) {
+      return body.detail;
+    } else {
+      return body;
+    }
   }
 }
 
@@ -75,7 +82,7 @@ export async function loginUser(
   });
   if (!resp.ok) {
     const responseJson = await resp.json();
-    console.log(responseJson)
+    console.log(responseJson);
     errorHandler(responseJson.detail);
     return true;
   } else if (resp.redirected) {

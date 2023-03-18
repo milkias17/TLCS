@@ -19,11 +19,10 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
   };
 };
 
-export default function CreateUser({ depts }: CreateUserProps) {
+export default function CreateCourse({ depts }: CreateUserProps) {
   const [name, setName] = useState("");
   const [chapterLength, setChapterLen] = useState("");
   const [description, setDesc] = useState("");
-  const [instructorId, setInstructorId] = useState("");
   const [batch, setBatch] = useState("");
   const [dept, setDept] = useState(Object.keys(depts)[0].toLowerCase());
   const [numWeeks, setNumWeeks] = useState("");
@@ -41,7 +40,6 @@ export default function CreateUser({ depts }: CreateUserProps) {
         chapter_length: chapterLength,
         no_week_take: numWeeks,
         description,
-        instructor_id: instructorId,
       },
       router,
       true
@@ -132,25 +130,14 @@ export default function CreateUser({ depts }: CreateUserProps) {
               onChange={(e) => setBatch(e.target.value)}
             />
           </label>
-          <label htmlFor="instructor" className="input-group">
-            <span className="hidden w-1/2 sm:inline-flex">Instructor Id</span>
-            <input
-              id="instructor"
-              name="instructor"
-              className="input-bordered input"
-              type="text"
-              required
-              onChange={(e) => setInstructorId(e.target.value)}
-            />
-          </label>
           <button type="submit" className="btn-primary btn">
             Create User
           </button>
         </form>
       </SidebarContent>
       <SideBar>
-        <Link href="/admin/create">Create User</Link>
-        <Link href="/admin/delete">Manage Users</Link>
+        <Link href="/depthead/course">Create Course</Link>
+        <Link href="/depthead/editCourse">Manage Course</Link>
       </SideBar>
     </>
   );

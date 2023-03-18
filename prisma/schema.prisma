@@ -48,7 +48,6 @@ model User {
   Student             Student[]
   College_coordinator College_coordinator[]
   Instructor          Instructor[]
-  Course              Course[]
 }
 
 model Session {
@@ -92,9 +91,7 @@ model Course {
   chapter_length Int
   no_week_take   Int
   description    String?
-  instructor_id  String
 
-  instructor     User            @relation(fields: [instructor_id], references: [user_id])
   course_events  Course_event[]
   course_outline Course_outline?
   feedbacks      feedback[]
@@ -149,18 +146,18 @@ model Progress {
 
 model Enrolment {
   enrolment_id Int    @id @default(autoincrement())
-  user_id      String // STUDENT user_id
+  student_id   String // STUDENT user_id
   course_code  String
 
-  user   User   @relation(fields: [user_id], references: [user_id])
+  user   User   @relation(fields: [student_id], references: [user_id])
   course Course @relation(fields: [course_code], references: [course_code])
 }
 
 model Assign_course {
   assignment_id Int    @id @default(autoincrement())
-  user_id       String // LECTURER user_id
+  instructor_id String // LECTURER user_id
   course_code   String
 
-  user   User   @relation(fields: [user_id], references: [user_id])
-  course Course @relation(fields: [course_code], references: [course_code])
+  instructor User   @relation(fields: [instructor_id], references: [user_id])
+  course     Course @relation(fields: [course_code], references: [course_code])
 }
