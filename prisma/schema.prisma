@@ -34,9 +34,8 @@ model User {
   lname        String
   email        String   @unique
   bio          String?
-  photo        String?
   phone_number String?
-  department   String?
+  department   Departments?
   college      String?
   batch        String?
   role         UserRole

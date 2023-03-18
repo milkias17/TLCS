@@ -1,9 +1,10 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import prisma from "@lib/prisma";
+import { ErrorType, UserType } from "@/lib/types";
 
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse
+  res: NextApiResponse<UserType | ErrorType>
 ) {
   if (Object.keys(req.query).length !== 0) {
     const { id } = req.query;
@@ -11,7 +12,7 @@ export default async function handler(
   }
 
   if (!("sessionId" in req.cookies)) {
-    return res.status(401).json({ error: "You have not logged in!" });
+    return res.status(401).json({ detail: "You have not logged in!" });
   }
 
   const sessionId = req.cookies.sessionId!;
@@ -25,7 +26,7 @@ export default async function handler(
   });
 
   if (!session) {
-    return res.status(401).json({ error: "Session doesn't exist" });
+    return res.status(401).json({ detail: "Session doesn't exist" });
   }
 
   res.status(200).json({

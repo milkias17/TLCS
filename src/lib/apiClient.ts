@@ -35,6 +35,31 @@ export async function makeRequest(
   }
 }
 
+export async function makePostRequest(
+  url: string,
+  body: any,
+  router: NextRouter | null = null,
+  hasJson: boolean = false
+) {
+  const resp = await fetch(url, {
+    method: "POST",
+    body: JSON.stringify(body),
+  });
+
+  if (!resp.ok && !hasJson) {
+    return null;
+  }
+
+  if (router && resp.redirected) {
+    router?.push(resp.url);
+  }
+
+  if (!resp.ok && hasJson) {
+    const body = await resp.json();
+    return body.detail;
+  }
+}
+
 export async function loginUser(
   { email, password, role }: UserLogin,
   router: NextRouter | null = null,

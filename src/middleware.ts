@@ -19,6 +19,10 @@ export async function middleware(request: NextRequest) {
 
   const user: UserType = await resp.json();
 
+  if (user.role === "ADMIN") {
+    return NextResponse.next()
+  }
+
   if (parseRole(url.pathname) !== user.role) {
     return NextResponse.redirect(new URL("/", request.url));
   }
@@ -31,5 +35,6 @@ export const config = {
     "/instructor/:path*",
     "/coordinator/:path*",
     "/instructor/:path*",
+    "/adminstrator/:path*",
   ],
 };
