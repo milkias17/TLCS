@@ -1,3 +1,5 @@
+import { UserRole } from "@prisma/client";
+
 export type UserType = {
   fname: string;
   lname: string;
@@ -19,7 +21,7 @@ export type UserCreate = {
   fname: string;
   lname: string;
   email: string;
-  role: string;
+  role: UserRole;
   phone_number?: string;
   department?: string;
   college?: string;

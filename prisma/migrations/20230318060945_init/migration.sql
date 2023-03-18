@@ -1,6 +1,9 @@
 -- CreateEnum
 CREATE TYPE "UserRole" AS ENUM ('STUDENT', 'COLLEGE_COORDINATOR', 'INSTRUCTOR', 'ADMIN', 'DEPTHEAD');
 
+-- CreateEnum
+CREATE TYPE "Departments" AS ENUM ('SOFTWARE', 'MECHANICAL', 'ELECTRICAL', 'LAW', 'MEDICINE');
+
 -- CreateTable
 CREATE TABLE "User" (
     "user_id" TEXT NOT NULL,
@@ -9,18 +12,26 @@ CREATE TABLE "User" (
     "lname" TEXT NOT NULL,
     "email" TEXT NOT NULL,
     "bio" TEXT,
-    "photo" TEXT,
     "phone_number" TEXT,
+    "department" "Departments",
+    "college" TEXT,
+    "batch" TEXT,
     "role" "UserRole" NOT NULL,
 
     CONSTRAINT "User_pkey" PRIMARY KEY ("user_id")
 );
 
 -- CreateTable
+CREATE TABLE "Session" (
+    "user_id" TEXT NOT NULL,
+    "uuid" TEXT NOT NULL
+);
+
+-- CreateTable
 CREATE TABLE "Student" (
     "user_id" TEXT NOT NULL,
     "batch" INTEGER NOT NULL,
-    "Dept" TEXT,
+    "dept" "Departments" NOT NULL,
     "college" TEXT,
 
     CONSTRAINT "Student_pkey" PRIMARY KEY ("user_id")
@@ -48,10 +59,11 @@ CREATE TABLE "Course" (
     "course_code" TEXT NOT NULL,
     "course_name" TEXT NOT NULL,
     "batch" INTEGER NOT NULL,
-    "Dept" TEXT,
-    "chapter_length" INTEGER,
-    "no_week_take" INTEGER,
+    "dept" TEXT NOT NULL,
+    "chapter_length" INTEGER NOT NULL,
+    "no_week_take" INTEGER NOT NULL,
     "description" TEXT,
+    "instructor_id" TEXT NOT NULL,
 
     CONSTRAINT "Course_pkey" PRIMARY KEY ("course_code")
 );
@@ -60,9 +72,9 @@ CREATE TABLE "Course" (
 CREATE TABLE "Course_event" (
     "event_id" SERIAL NOT NULL,
     "course_code" TEXT NOT NULL,
-    "event_name" TEXT,
-    "event_type" TEXT,
-    "event_date" TIMESTAMP(3),
+    "event_name" TEXT NOT NULL,
+    "event_type" TEXT NOT NULL,
+    "event_date" TIMESTAMP(3) NOT NULL,
     "discription" TEXT,
 
     CONSTRAINT "Course_event_pkey" PRIMARY KEY ("event_id")
@@ -73,8 +85,9 @@ CREATE TABLE "feedback" (
     "feedback_id" SERIAL NOT NULL,
     "user_id" TEXT NOT NULL,
     "course_code" TEXT NOT NULL,
-    "rating" INTEGER,
+    "rating" INTEGER NOT NULL,
     "comment" TEXT,
+    "no_chapter_completed" INTEGER,
 
     CONSTRAINT "feedback_pkey" PRIMARY KEY ("feedback_id")
 );
@@ -96,6 +109,7 @@ CREATE TABLE "Progress" (
     "user_id" TEXT NOT NULL,
     "course_code" TEXT NOT NULL,
     "percent_complete" INTEGER,
+    "no_chapter_completed" INTEGER,
 
     CONSTRAINT "Progress_pkey" PRIMARY KEY ("progress_id")
 );
@@ -110,19 +124,28 @@ CREATE TABLE "Enrolment" (
 );
 
 -- CreateTable
-CREATE TABLE "Course_assignment" (
+CREATE TABLE "Assign_course" (
     "assignment_id" SERIAL NOT NULL,
     "user_id" TEXT NOT NULL,
     "course_code" TEXT NOT NULL,
 
-    CONSTRAINT "Course_assignment_pkey" PRIMARY KEY ("assignment_id")
+    CONSTRAINT "Assign_course_pkey" PRIMARY KEY ("assignment_id")
 );
 
 -- CreateIndex
 CREATE UNIQUE INDEX "User_email_key" ON "User"("email");
 
 -- CreateIndex
-CREATE INDEX "Student_batch_Dept_idx" ON "Student"("batch", "Dept");
+CREATE UNIQUE INDEX "Session_user_id_key" ON "Session"("user_id");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "Session_uuid_key" ON "Session"("uuid");
+
+-- CreateIndex
+CREATE INDEX "Student_batch_dept_idx" ON "Student"("batch", "dept");
+
+-- AddForeignKey
+ALTER TABLE "Session" ADD CONSTRAINT "Session_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "User"("user_id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Student" ADD CONSTRAINT "Student_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "User"("user_id") ON DELETE RESTRICT ON UPDATE CASCADE;
@@ -132,6 +155,9 @@ ALTER TABLE "College_coordinator" ADD CONSTRAINT "College_coordinator_user_id_fk
 
 -- AddForeignKey
 ALTER TABLE "Instructor" ADD CONSTRAINT "Instructor_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "User"("user_id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Course" ADD CONSTRAINT "Course_instructor_id_fkey" FOREIGN KEY ("instructor_id") REFERENCES "User"("user_id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Course_event" ADD CONSTRAINT "Course_event_course_code_fkey" FOREIGN KEY ("course_code") REFERENCES "Course"("course_code") ON DELETE RESTRICT ON UPDATE CASCADE;
@@ -158,7 +184,7 @@ ALTER TABLE "Enrolment" ADD CONSTRAINT "Enrolment_user_id_fkey" FOREIGN KEY ("us
 ALTER TABLE "Enrolment" ADD CONSTRAINT "Enrolment_course_code_fkey" FOREIGN KEY ("course_code") REFERENCES "Course"("course_code") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Course_assignment" ADD CONSTRAINT "Course_assignment_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "User"("user_id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "Assign_course" ADD CONSTRAINT "Assign_course_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "User"("user_id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Course_assignment" ADD CONSTRAINT "Course_assignment_course_code_fkey" FOREIGN KEY ("course_code") REFERENCES "Course"("course_code") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "Assign_course" ADD CONSTRAINT "Assign_course_course_code_fkey" FOREIGN KEY ("course_code") REFERENCES "Course"("course_code") ON DELETE RESTRICT ON UPDATE CASCADE;

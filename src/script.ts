@@ -1088,18 +1088,10 @@ async function main() {
         lname: secondName,
         email: `${firstName}@gmail.com`,
         role: UserRole.STUDENT,
-      },
-    });
-    const student = await prisma.student.create({
-      data: {
-        user_id: user.user_id,
-        batch: 2022,
-        dept: departmentMapper(departments[randomInt(departments.length)]),
-        college: "AASTU",
+        batch: "2020",
       },
     });
     console.log(`Created User: ${JSON.stringify(user)}`);
-    console.log(`Created Student: ${JSON.stringify(student)}`);
   }
 }
 
@@ -1116,9 +1108,9 @@ async function addAdmin() {
   console.log(`Created ADMIN: ${JSON.stringify(user)}`);
 }
 
-// main().then(() => {
-//   console.log("Done!");
-// });
-addAdmin().then(() => {
+main().then(() => {
   console.log("Done!");
 });
+// addAdmin().then(() => {
+//   console.log("Done!");
+// });

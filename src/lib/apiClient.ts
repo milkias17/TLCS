@@ -73,9 +73,9 @@ export async function loginUser(
       role,
     }),
   });
-
   if (!resp.ok) {
     const responseJson = await resp.json();
+    console.log(responseJson)
     errorHandler(responseJson.detail);
     return true;
   } else if (resp.redirected) {

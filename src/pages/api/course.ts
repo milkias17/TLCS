@@ -1,28 +1,26 @@
-import { UserCreate } from "@/lib/types";
 import { NextApiRequest, NextApiResponse } from "next";
 import prisma from "@/lib/prisma";
-import { departmentMapper, roleMapper } from "@/lib/utils";
-import { hashPassword } from "@/lib/passwordHandlers";
+import { departmentMapper } from "@/lib/utils";
 
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
   if (req.method === "POST") {
-    const body: UserCreate = JSON.parse(req.body);
+    const body = JSON.parse(req.body);
     try {
-      const user = await prisma.user.create({
-        // @ts-ignore
+      const course = await prisma.course.create({
         data: {
           ...body,
-          role: roleMapper(body.role),
           ...(body.department && {
             department: departmentMapper(body.department),
           }),
-          password: await hashPassword(body.password),
+          no_week_take: parseInt(body.no_week_take),
+          chapter_length: parseInt(body.chapter_length),
+          batch: parseInt(body.batch),
         },
       });
-      res.redirect("/admin");
+      res.redirect("/depthead");
       res.status(200).json({ detail: "Successfullly created user" });
     } catch (e) {
       console.log(e);
