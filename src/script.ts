@@ -8,7 +8,6 @@ const randomNum = Math.floor(Math.random() * 5);
 
 async function main() {
   for (let i = 0; i < 100; i++) {
-    let randomNum = Math.floor(Math.random() * 5);
     let secondNum = Math.floor(Math.random() * 5);
     let firstName = names[randomNum];
     let secondName = names[secondNum];

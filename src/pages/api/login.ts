@@ -1,6 +1,6 @@
-import { roleMapper } from "@/lib/utils";
-import { checkPassword } from "@lib/passwordHandlers";
-import prisma from "@lib/prisma";
+import { roleMapper } from "../../lib/utils";
+import { checkPassword } from "../../lib/passwordHandlers";
+import prisma from "../../lib/prisma";
 import { serialize } from "cookie";
 import type { NextApiRequest, NextApiResponse } from "next";
 import { v4 as uuid4 } from "uuid";

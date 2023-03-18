@@ -1,8 +1,8 @@
-import UserContext from "@context/UserContext";
+import UserContext from "../context/UserContext";
 import { useContext } from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { makeRequest } from "@lib/apiClient";
+import { makeRequest } from "../lib/apiClient";
 
 export default function NavBar() {
   const { user, setUser } = useContext(UserContext);

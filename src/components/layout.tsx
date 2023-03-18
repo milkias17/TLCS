@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
-import UserContext from "@context/UserContext";
+import UserContext from "../context/UserContext";
 import NavBar from "./navbar";
 
-import type { UserType } from "@lib/types";
-import { getUser } from "@lib/apiClient";
+import type { UserType } from "../lib/types";
+import { getUser } from "../lib/apiClient";
 
 type LayoutProps = {
   children: React.ReactNode;
