@@ -26,16 +26,21 @@ export default async function handler(
       console.log(e);
       res.status(403).json({ detail: "Invalid arguments to create user" });
     }
-  } else if (req.method === "GET") {
-    const user = await prisma.session.findUnique({
-      where: {
-        uuid: req.cookies.sessionId,
-      },
-    });
-    if (!user) {
-      return res.redirect("/");
+  } else if (req.method === "PUT") {
+    const body = JSON.parse(req.body);
+    try {
+      const updateCourse = await prisma.course.update({
+        where: {
+          course_code: body.course_code,
+        },
+        data: {
+          ...body,
+        },
+      });
+    } catch (e) {
+      return res.status(403).json({ detail: "Course doesn't exist'" });
     }
 
-    // const courses = await pri
+    return res.status(200).redirect("/");
   }
 }

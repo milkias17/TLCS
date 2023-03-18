@@ -73,6 +73,7 @@ export default function CreateCourse({ depts }: CreateUserProps) {
               type="text"
               required
               onChange={(e) => setName(e.target.value)}
+              value={name}
             />
           </label>
           <label htmlFor="chapterLen" className="input-group">
@@ -84,6 +85,7 @@ export default function CreateCourse({ depts }: CreateUserProps) {
               type="text"
               required
               onChange={(e) => setChapterLen(e.target.value)}
+              value={chapterLength}
             />
           </label>
           <label htmlFor="desc" className="input-group">
@@ -95,6 +97,7 @@ export default function CreateCourse({ depts }: CreateUserProps) {
               type="desc"
               required
               onChange={(e) => setDesc(e.target.value)}
+              value={description}
             />
           </label>
           <label htmlFor="numWeeks" className="input-group">
@@ -108,6 +111,7 @@ export default function CreateCourse({ depts }: CreateUserProps) {
               type="numWeeks"
               required
               onChange={(e) => setNumWeeks(e.target.value)}
+              value={description}
             />
           </label>
           <select
@@ -128,17 +132,14 @@ export default function CreateCourse({ depts }: CreateUserProps) {
               type="text"
               required
               onChange={(e) => setBatch(e.target.value)}
+              value={batch}
             />
           </label>
           <button type="submit" className="btn-primary btn">
-            Create User
+            Create Course
           </button>
         </form>
       </SidebarContent>
-      <SideBar>
-        <Link href="/depthead/course">Create Course</Link>
-        <Link href="/depthead/editCourse">Manage Course</Link>
-      </SideBar>
     </>
   );
 }
