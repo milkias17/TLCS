@@ -59,6 +59,7 @@ export async function makePostRequest(
 
   if (router && resp.redirected) {
     router?.push(resp.url);
+    return;
   }
 
   if (!resp.ok && hasJson) {

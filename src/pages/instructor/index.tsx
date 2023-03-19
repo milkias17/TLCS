@@ -3,14 +3,23 @@ import { useContext, useEffect, useState } from "react";
 import SideBar from "@components/sidebar";
 import SideBarContent from "@components/SidebarContent";
 import Link from "next/link";
+import { GetServerSideProps } from "next";
+import prisma from "@/lib/prisma";
 
-export default function InstructorDashboard() {
+export const getServerSideProps: GetServerSideProps = async (ctx) => {
+  const coursesList = await prisma.course.findMany();
+  return {
+    props: {
+      coursesList,
+    },
+  };
+};
+
+export default function InstructorDashboard({ coursesList}: ) {
   const { user } = useContext(UserContext);
   const [courses, setCourses] = useState(null);
 
-  useEffect(() => {
-    
-    }, []);
+  useEffect(() => {}, []);
 
   return (
     <>

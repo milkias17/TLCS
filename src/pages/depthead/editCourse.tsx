@@ -1,6 +1,7 @@
 import SideBar from "@/components/sidebar";
 import SidebarContent from "@/components/SidebarContent";
 import { makeRequest } from "@/lib/apiClient";
+import prisma from "@/lib/prisma";
 import { Course } from "@prisma/client";
 import { GetServerSideProps } from "next";
 import Link from "next/link";
@@ -8,6 +9,7 @@ import { FormEvent, useState } from "react";
 
 type Props = {
   filterOptions: string[];
+  coursesList: Course[] | null;
 };
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
@@ -20,15 +22,17 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
     "no_week_take",
     "description",
   ];
+  const coursesList = await prisma.course.findMany();
   return {
     props: {
       filterOptions,
+      coursesList,
     },
   };
 };
 
-export default function ManageCourse({ filterOptions }: Props) {
-  const [courses, setCourses] = useState<Course[] | null>(null);
+export default function ManageCourse({ filterOptions, coursesList }: Props) {
+  const [courses, setCourses] = useState<Course[] | null>(coursesList);
   const [filterby, setFilterBy] = useState<string>(filterOptions[0]);
   const [filterVal, setFilterVal] = useState<string | null>(null);
 
@@ -77,6 +81,7 @@ export default function ManageCourse({ filterOptions }: Props) {
                       return <th key={i}>{val}</th>;
                     })}
                     <th key={120}>Edit Course</th>
+                    <th key={121}>Assign</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -95,6 +100,14 @@ export default function ManageCourse({ filterOptions }: Props) {
                                 className="btn btn-primary"
                               >
                                 Edit
+                              </Link>
+                            </td>,
+                            <td key={500}>
+                              <Link
+                                href={`/course/assign/${courseObj.course_code}`}
+                                className="btn btn-primary"
+                              >
+                                Assign Course
                               </Link>
                             </td>,
                           ])}
