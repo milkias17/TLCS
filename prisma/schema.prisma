@@ -127,7 +127,6 @@ model Course_outline {
   course_code       String  @id
   course_objectives String?
   topics            String?
-  learning_outcomes String?
   no_chapterperweek Int?
 
   course Course @relation(fields: [course_code], references: [course_code])

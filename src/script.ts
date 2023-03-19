@@ -1078,7 +1078,7 @@ const names = [
 const departments = ["software", "mechanical", "electrical", "law", "medicine"];
 
 async function main() {
-  for (let i = 0; i < 100; i += 2) {
+  for (let i = 55; i < 70; i += 2) {
     let firstName = names[i];
     let secondName = names[i + 1];
     const user = await prisma.user.create({
@@ -1087,7 +1087,7 @@ async function main() {
         fname: firstName,
         lname: secondName,
         email: `${firstName}@gmail.com`,
-        role: UserRole.STUDENT,
+        role: UserRole.INSTRUCTOR,
         batch: "2020",
       },
     });
