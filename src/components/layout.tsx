@@ -15,7 +15,6 @@ export default function Layout({ children }: LayoutProps) {
   useEffect(() => {
     const userReq = async () => {
       const user = await getUser();
-      console.log(user);
       setUser(user);
     };
 

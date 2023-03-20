@@ -66,6 +66,8 @@ export async function makePostRequest(
     const body = await resp.json();
     return body.detail;
   }
+
+  return body;
 }
 
 export async function makePutRequest(

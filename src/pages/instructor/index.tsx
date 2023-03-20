@@ -72,6 +72,7 @@ export default function InstructorDashboard({ courses }: Props) {
                     })}
                     <th key={120}>Edit Course</th>
                     <th key={121}>Add/Edit Course Outline</th>
+                    <th key={122}>Course Events</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -100,6 +101,14 @@ export default function InstructorDashboard({ courses }: Props) {
                                 Add/Edit
                               </Link>
                             </td>,
+                            <td key={124}>
+                              <Link
+                                className="btn btn-primary"
+                                href={`/course/event/${courseObj.course_code}`}
+                              >
+                                View
+                              </Link>
+                            </td>,
                           ])}
                       </tr>
                     );
@@ -110,10 +119,6 @@ export default function InstructorDashboard({ courses }: Props) {
           )}
         </div>
       </SideBarContent>
-      <SideBar>
-        <Link href="/admin/create">Create User</Link>
-        <Link href="/admin/delete">Manage Users</Link>
-      </SideBar>
     </>
   );
 }
