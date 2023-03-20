@@ -59,7 +59,7 @@ model Session {
 
 model Student {
   user_id String      @id
-  batch   Int
+  batch   String
   dept    Departments
   college String?
 

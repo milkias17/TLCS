@@ -96,7 +96,7 @@ export default function ManageCourse({ filterOptions, coursesList }: Props) {
                           .concat([
                             <td key={courseObj.course_code}>
                               <Link
-                                href={`/course/${courseObj.course_code}`}
+                                href={`/course/edit/${courseObj.course_code}`}
                                 className="btn btn-primary"
                               >
                                 Edit

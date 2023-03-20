@@ -22,10 +22,9 @@ export default async function handler(
           password: await hashPassword(body.password),
         },
       });
-      res.redirect("/admin");
-      res.status(200).json({ detail: "Successfullly created user" });
+      res.status(200).redirect("/admin");
     } catch (e) {
-      console.log(e);
+      console.error(e);
       res.status(403).json({ detail: "Invalid arguments to create user" });
     }
   }
