@@ -15,6 +15,7 @@ export default function Layout({ children }: LayoutProps) {
   useEffect(() => {
     const userReq = async () => {
       const user = await getUser();
+      console.log(user);
       setUser(user);
     };
 
@@ -24,7 +25,7 @@ export default function Layout({ children }: LayoutProps) {
   return (
     <UserContext.Provider value={{ user, setUser }}>
       <NavBar />
-      {children}
+      <div className="drawer drawer-mobile">{children}</div>
     </UserContext.Provider>
   );
 }

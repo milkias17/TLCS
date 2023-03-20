@@ -5,6 +5,7 @@ import { FormEvent, useContext, useState } from "react";
 import { useRouter } from "next/router";
 import UserContext from "../../context/UserContext";
 import { getUser, loginUser } from "../../lib/apiClient";
+import SidebarContent from "../../components/SidebarContent";
 
 interface Params extends ParsedUrlQuery {
   role: "student" | "instructor" | "admin" | "depthead" | "college_coordinator";
@@ -51,11 +52,12 @@ export default function Login({ role }: Params) {
     if (!hasError) {
       const user = await getUser();
       setUser(user);
+      setErrorMsg("");
     }
   }
 
   return (
-    <div className="flex justify-center">
+    <SidebarContent>
       <form
         method="post"
         className="form-control gap-4"
@@ -93,6 +95,6 @@ export default function Login({ role }: Params) {
           Login
         </button>
       </form>
-    </div>
+    </SidebarContent>
   );
 }

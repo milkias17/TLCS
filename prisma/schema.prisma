@@ -19,25 +19,33 @@ enum UserRole {
   DEPTHEAD
 }
 
+enum Departments {
+  SOFTWARE
+  MECHANICAL
+  ELECTRICAL
+  LAW
+  MEDICINE
+}
+
 model User {
-  user_id      String   @id @default(uuid())
+  user_id      String       @id @default(uuid())
   password     String
   fname        String
   lname        String
-  email        String   @unique
+  email        String       @unique
   bio          String?
-  photo        String?
   phone_number String?
-  department   String?
+  department   Departments?
   college      String?
   batch        String?
   role         UserRole
 
-  feedbacks      feedback[]
-  progresses     Progress[]
-  enrolments     Enrolment[]
-  assign_courses Assign_course[]
-  Session        Session?
+  feedbacks           feedback[]
+  progresses          Progress[]
+  enrolments          Enrolment[]
+  assign_courses      Assign_course[]
+  Session             Session?
+  Course              Course[]
 }
 
 model Session {
@@ -50,12 +58,14 @@ model Session {
 model Course {
   course_code    String  @id @default(uuid())
   course_name    String
-  batch          Int
+  batch          String
   dept           String
   chapter_length Int
   no_week_take   Int
   description    String?
+  instructor_id  String
 
+  instructor     User            @relation(fields: [instructor_id], references: [user_id])
   course_events  Course_event[]
   course_outline Course_outline?
   feedbacks      feedback[]
