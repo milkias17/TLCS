@@ -15,7 +15,8 @@ export default function DeptHeadDashboard() {
         </h1>
       </SidebarContent>
       <SideBar>
-        <Link href="/depthead/course">Create Course</Link>
+        <Link href="/depthead/newCourse">Create Course</Link>
+        <Link href="/depthead/editCourse">Manage Course</Link>
       </SideBar>
     </>
   );

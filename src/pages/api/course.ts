@@ -17,7 +17,7 @@ export default async function handler(
           }),
           no_week_take: parseInt(body.no_week_take),
           chapter_length: parseInt(body.chapter_length),
-          batch: parseInt(body.batch),
+          batch: body.batch,
         },
       });
       res.redirect("/depthead");
@@ -26,5 +26,21 @@ export default async function handler(
       console.log(e);
       res.status(403).json({ detail: "Invalid arguments to create user" });
     }
+  } else if (req.method === "PUT") {
+    const body = JSON.parse(req.body);
+    try {
+      const updateCourse = await prisma.course.update({
+        where: {
+          course_code: body.course_code,
+        },
+        data: {
+          ...body,
+        },
+      });
+    } catch (e) {
+      return res.status(403).json({ detail: "Course doesn't exist'" });
+    }
+
+    return res.status(200).redirect("/");
   }
 }

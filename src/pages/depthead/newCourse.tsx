@@ -19,11 +19,10 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
   };
 };
 
-export default function CreateUser({ depts }: CreateUserProps) {
+export default function CreateCourse({ depts }: CreateUserProps) {
   const [name, setName] = useState("");
   const [chapterLength, setChapterLen] = useState("");
   const [description, setDesc] = useState("");
-  const [instructorId, setInstructorId] = useState("");
   const [batch, setBatch] = useState("");
   const [dept, setDept] = useState(Object.keys(depts)[0].toLowerCase());
   const [numWeeks, setNumWeeks] = useState("");
@@ -41,7 +40,6 @@ export default function CreateUser({ depts }: CreateUserProps) {
         chapter_length: chapterLength,
         no_week_take: numWeeks,
         description,
-        instructor_id: instructorId,
       },
       router,
       true
@@ -75,6 +73,7 @@ export default function CreateUser({ depts }: CreateUserProps) {
               type="text"
               required
               onChange={(e) => setName(e.target.value)}
+              value={name}
             />
           </label>
           <label htmlFor="chapterLen" className="input-group">
@@ -86,6 +85,7 @@ export default function CreateUser({ depts }: CreateUserProps) {
               type="text"
               required
               onChange={(e) => setChapterLen(e.target.value)}
+              value={chapterLength}
             />
           </label>
           <label htmlFor="desc" className="input-group">
@@ -97,6 +97,7 @@ export default function CreateUser({ depts }: CreateUserProps) {
               type="desc"
               required
               onChange={(e) => setDesc(e.target.value)}
+              value={description}
             />
           </label>
           <label htmlFor="numWeeks" className="input-group">
@@ -110,6 +111,7 @@ export default function CreateUser({ depts }: CreateUserProps) {
               type="numWeeks"
               required
               onChange={(e) => setNumWeeks(e.target.value)}
+              value={description}
             />
           </label>
           <select
@@ -130,28 +132,14 @@ export default function CreateUser({ depts }: CreateUserProps) {
               type="text"
               required
               onChange={(e) => setBatch(e.target.value)}
-            />
-          </label>
-          <label htmlFor="instructor" className="input-group">
-            <span className="hidden w-1/2 sm:inline-flex">Instructor Id</span>
-            <input
-              id="instructor"
-              name="instructor"
-              className="input-bordered input"
-              type="text"
-              required
-              onChange={(e) => setInstructorId(e.target.value)}
+              value={batch}
             />
           </label>
           <button type="submit" className="btn-primary btn">
-            Create User
+            Create Course
           </button>
         </form>
       </SidebarContent>
-      <SideBar>
-        <Link href="/admin/create">Create User</Link>
-        <Link href="/admin/delete">Manage Users</Link>
-      </SideBar>
     </>
   );
 }

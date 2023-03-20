@@ -15,10 +15,10 @@ type Props = {
     courses: Course[];
 };
 
-const getServerSideProps: GetServerSideProps<Props> = async (
+export const getServerSideProps: GetServerSideProps<Props> = async (
     context: GetServerSidePropsContext
 ) => {
-    const { studentId } = context.query;
+    const { studentId } = context.query.user_id;
 
     try {
         const courses = await prisma.enrolment
