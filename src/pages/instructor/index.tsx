@@ -1,10 +1,10 @@
-import UserContext from "@context/UserContext";
+import UserContext from "../../context/UserContext";
 import { FormEvent, useContext, useEffect, useState } from "react";
-import SideBar from "@components/sidebar";
-import SideBarContent from "@components/SidebarContent";
+import SideBar from "../../components/sidebar";
+import SideBarContent from "../../components/SidebarContent";
 import Link from "next/link";
 import { GetServerSideProps } from "next";
-import prisma from "@/lib/prisma";
+import prisma from "../../lib/prisma";
 import { Course } from "@prisma/client";
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
@@ -25,7 +25,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 
   const courses = await prisma.assign_course.findMany({
     where: {
-      instructor_id: user.user_id,
+      user_id: user.user_id,
     },
     select: {
       course: true,

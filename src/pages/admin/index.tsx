@@ -1,7 +1,7 @@
-import UserContext from "@context/UserContext";
+import UserContext from "../../context/UserContext";
 import { useContext } from "react";
-import SideBar from "@components/sidebar";
-import SideBarContent from "@components/SidebarContent";
+import SideBar from "../../components/sidebar";
+import SideBarContent from "../../components/SidebarContent";
 import Link from "next/link";
 
 export default function AdminDashboard() {

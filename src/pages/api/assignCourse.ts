@@ -1,8 +1,8 @@
-import prisma from "@/lib/prisma";
+import prisma from "../../lib/prisma";
 import { NextApiRequest, NextApiResponse } from "next";
 
 type AssignCourse = {
-  instructor_id: string;
+  user_id: string;
   course_code: string;
 };
 

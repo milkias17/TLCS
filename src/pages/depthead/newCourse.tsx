@@ -1,11 +1,11 @@
-import SideBar from "@/components/sidebar";
-import SidebarContent from "@/components/SidebarContent";
+import SideBar from "../../components/sidebar";
+import SidebarContent from "../../components/SidebarContent";
 import { Departments } from "@prisma/client";
 import { GetServerSideProps } from "next";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { FormEvent, useState } from "react";
-import { makePostRequest } from "@lib/apiClient";
+import { makePostRequest } from "../../lib/apiClient";
 
 type CreateUserProps = {
   depts: Departments;

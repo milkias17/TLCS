@@ -1,6 +1,6 @@
-import SidebarContent from "@/components/SidebarContent";
-import { makePostRequest, makeRequest } from "@/lib/apiClient";
-import prisma from "@/lib/prisma";
+import SidebarContent from "../../../components/SidebarContent";
+import { makePostRequest, makeRequest } from "../../../lib/apiClient";
+import prisma from "../../../lib/prisma";
 import { Course, User } from "@prisma/client";
 import { GetServerSideProps } from "next";
 import Link from "next/link";

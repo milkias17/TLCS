@@ -1,2 +1,0 @@
--- AlterTable
-ALTER TABLE "Course" ALTER COLUMN "batch" SET DATA TYPE TEXT;

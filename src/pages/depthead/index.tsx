@@ -1,6 +1,6 @@
-import SideBar from "@/components/sidebar";
-import SidebarContent from "@/components/SidebarContent";
-import UserContext from "@/context/UserContext";
+import SideBar from "../../components/sidebar";
+import SidebarContent from "../../components/SidebarContent";
+import UserContext from "../../context/UserContext";
 import Link from "next/link";
 import { useContext } from "react";
 

@@ -1,11 +1,11 @@
 import type { GetStaticPaths, GetStaticProps } from "next";
 import { ParsedUrlQuery } from "querystring";
-import { prettify } from "@/lib/utils";
+import { prettify } from "../../lib/utils";
 import { FormEvent, useContext, useState } from "react";
 import { useRouter } from "next/router";
-import UserContext from "@context/UserContext";
-import { getUser, loginUser } from "@/lib/apiClient";
-import SidebarContent from "@/components/SidebarContent";
+import UserContext from "../../context/UserContext";
+import { getUser, loginUser } from "../../lib/apiClient";
+import SidebarContent from "../../components/SidebarContent";
 
 interface Params extends ParsedUrlQuery {
   role: "student" | "instructor" | "admin" | "depthead" | "college_coordinator";

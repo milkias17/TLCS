@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import prisma from "@/lib/prisma";
-import { departmentMapper } from "@/lib/utils";
+import prisma from "../../lib/prisma";
+import { departmentMapper } from "../../lib/utils";
 
 export default async function handler(
   req: NextApiRequest,

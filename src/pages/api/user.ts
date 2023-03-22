@@ -1,8 +1,8 @@
-import { UserCreate } from "@/lib/types";
+import { UserCreate } from "../../lib/types";
 import { NextApiRequest, NextApiResponse } from "next";
-import prisma from "@/lib/prisma";
-import { departmentMapper, roleMapper } from "@/lib/utils";
-import { hashPassword } from "@/lib/passwordHandlers";
+import prisma from "../../lib/prisma";
+import { departmentMapper, roleMapper } from "../../lib/utils";
+import { hashPassword } from "../../lib/passwordHandlers";
 
 export default async function handler(
   req: NextApiRequest,

@@ -1,4 +1,4 @@
-import type { UserLogin, UserType } from "@lib/types";
+import type { UserLogin, UserType } from "./types";
 import { NextRouter } from "next/router";
 
 export async function getUser(
