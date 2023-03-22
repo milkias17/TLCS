@@ -20,7 +20,7 @@ export async function middleware(request: NextRequest) {
   const user: UserType = await resp.json();
 
   if (user.role === "ADMIN") {
-    return NextResponse.next()
+    return NextResponse.next();
   }
 
   if (parseRole(url.pathname) !== user.role) {

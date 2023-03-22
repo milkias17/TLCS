@@ -152,7 +152,7 @@ export default function AssignCourse({ course, filterOptions }: Props) {
                           return <td key={key}>{instructorObj[key]}</td>;
                         })
                         .concat([
-                          <tr>
+                          <tr key={130}>
                             <button
                               className="btn btn-primary"
                               onClick={(e) => {
