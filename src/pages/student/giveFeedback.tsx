@@ -14,7 +14,6 @@ type Props = {
 };
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-  // get courses from Enrolment
   const uuid = context.req.cookies.sessionId;
   const session = await prisma.session.findUnique({
     where: {
@@ -35,21 +34,21 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   }
 
   const user = session?.user;
-  const enrolments = await prisma.enrolment.findMany({
+
+  if (!user.batch) {
+    return {
+      redirect: {
+        destination: "/",
+        permanent: true,
+      },
+    };
+  }
+
+  const courses = await prisma.course.findMany({
     where: {
-      student_id: user.user_id,
-    },
-    include: {
-      course: true,
+      batch: user.batch,
     },
   });
-  let courses: Course[];
-
-  if (enrolments) {
-    courses = enrolments.map((enrolment) => enrolment.course);
-  } else {
-    courses = [];
-  }
 
   return {
     props: {
@@ -118,21 +117,6 @@ const FeedbackForm = ({ courses }: Props) => {
               ))}
             </select>
           </label>
-          {/* <label htmlFor="rating" className="input-group"> */}
-          {/*   <span className="hidden w-1 /2 sm:inline-flex">Rating:</span> */}
-          {/*   <select */}
-          {/*     value={rating} */}
-          {/*     onChange={(e) => setRating(e.target.value)} */}
-          {/*     required */}
-          {/*   > */}
-          {/*     <option value="">Select rating</option> */}
-          {/*     <option value="1">1 star</option> */}
-          {/*     <option value="2">2 stars</option> */}
-          {/*     <option value="3">3 stars</option> */}
-          {/*     <option value="4">4 stars</option> */}
-          {/*     <option value="5">5 stars</option> */}
-          {/*   </select> */}
-          {/* </label> */}
           <div className="rating">
             <label htmlFor="rating-1" className="mr-10">
               Rating
@@ -142,7 +126,7 @@ const FeedbackForm = ({ courses }: Props) => {
               name="rating-1"
               className="mask mask-star"
               value={1}
-              onClick={(e) => setRating(1)}
+              onChange={(e) => setRating(1)}
               checked={rating === 1}
             />
             <input
@@ -151,7 +135,7 @@ const FeedbackForm = ({ courses }: Props) => {
               className="mask mask-star"
               value={2}
               checked={rating === 2}
-              onClick={(e) => setRating(2)}
+              onChange={(e) => setRating(2)}
             />
             <input
               type="radio"
@@ -159,7 +143,7 @@ const FeedbackForm = ({ courses }: Props) => {
               className="mask mask-star"
               value={3}
               checked={rating === 3}
-              onClick={(e) => setRating(3)}
+              onChange={(e) => setRating(3)}
             />
             <input
               type="radio"
@@ -167,7 +151,7 @@ const FeedbackForm = ({ courses }: Props) => {
               className="mask mask-star"
               value={4}
               checked={rating === 4}
-              onClick={(e) => setRating(4)}
+              onChange={(e) => setRating(4)}
             />
             <input
               type="radio"
@@ -175,7 +159,7 @@ const FeedbackForm = ({ courses }: Props) => {
               className="mask mask-star"
               value={5}
               checked={rating === 5}
-              onClick={(e) => setRating(5)}
+              onChange={(e) => setRating(5)}
             />
           </div>
           <label htmlFor="comment" className="input-group">

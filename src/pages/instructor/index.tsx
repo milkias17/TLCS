@@ -25,7 +25,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 
   const courses = await prisma.assign_course.findMany({
     where: {
-      user_id: user.user_id,
+      instructor_id: user.user_id,
     },
     select: {
       course: true,

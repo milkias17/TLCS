@@ -38,8 +38,5 @@ export default async function handler(
     maxAge: 0,
     path: "/",
   });
-  res.setHeader("Set-Cookie", cookie);
-  res.redirect("/");
-
-  res.status(200).json({ detail: "Logged out successfully" });
+  res.setHeader("Set-Cookie", cookie).status(200).redirect("/");
 }
