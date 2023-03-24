@@ -4,7 +4,7 @@ import SideBar from "../../components/sidebar";
 import SideBarContent from "../../components/SidebarContent";
 import Link from "next/link";
 
-export default function AdminDashboard(props) {
+export default function AdminDashboard() {
   const { user } = useContext(UserContext);
 
   return (
