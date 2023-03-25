@@ -3,9 +3,8 @@ import { useContext } from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { makeRequest } from "../lib/apiClient";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHome, faChartBar } from '@fortawesome/free-solid-svg-icons';
-
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faHome, faChartBar } from "@fortawesome/free-solid-svg-icons";
 
 export default function NavBar() {
   const { user, setUser } = useContext(UserContext);
@@ -51,22 +50,17 @@ export default function NavBar() {
             </ul>
           </div>
         ) : (
-            <div>
-              <div>
-                <Link
-                  className="link link-primary text-xl"
-                  href={`/${user?.role.toLowerCase()}`}
-                >
-                  <FontAwesomeIcon icon={faChartBar} />
-                </Link>
-              </div>
-              <div>
-                <button className="btn m-1" onClick={handleClick}>
-                  Logout
-                </button>
-              </div>
-            </div>
-
+          <>
+            <Link
+              className="link link-primary text-xl"
+              href={`/${user?.role.toLowerCase()}`}
+            >
+              <FontAwesomeIcon icon={faChartBar} />
+            </Link>
+            <button className="btn m-1" onClick={handleClick}>
+              Logout
+            </button>
+          </>
         )}
       </div>
     </nav>
