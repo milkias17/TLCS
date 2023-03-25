@@ -1,4 +1,4 @@
-import UserContext from "@/context/UserContext";
+import UserContext from "../context/UserContext";
 import Link from "next/link";
 import { useContext } from "react";
 import HeroImage from "../../public/hero.jpg";
@@ -25,7 +25,7 @@ export default function Home() {
             <p className="mb-5">
               {user
                 ? "Welcome to TLCS, the ultimate teaching learning collaborating system, checkout your dashboard to see what functions you have."
-                : "Login to use TLCS"}
+                : "Login to use Teaching Learning Co-ordinating System"}
             </p>
             <Link className="btn btn-primary" href={user ? `/${user.role.toLowerCase()}` : "/login/student"}>Get Started</Link>
           </div>
