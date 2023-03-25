@@ -3,6 +3,9 @@ import { useContext } from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { makeRequest } from "../lib/apiClient";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faHome, faChartBar } from '@fortawesome/free-solid-svg-icons';
+
 
 export default function NavBar() {
   const { user, setUser } = useContext(UserContext);
@@ -16,15 +19,9 @@ export default function NavBar() {
   return (
     <nav className="navbar relative z-10 bg-transparent">
       <Link className="navbar-start link link-primary text-2xl" href="/">
-        TLCS
+        <FontAwesomeIcon icon={faHome} />
       </Link>
       <div className="navbar-end gap-4">
-        <Link
-          className="link link-primary text-xl"
-          href={`/${user?.role.toLowerCase()}`}
-        >
-          Dashboard
-        </Link>
         {!user ? (
           <div className="dropdown dropdown-end">
             <label tabIndex={0} className="btn m-1">
@@ -54,9 +51,22 @@ export default function NavBar() {
             </ul>
           </div>
         ) : (
-          <button className="btn m-1" onClick={handleClick}>
-            Logout
-          </button>
+            <div>
+              <div>
+                <Link
+                  className="link link-primary text-xl"
+                  href={`/${user?.role.toLowerCase()}`}
+                >
+                  <FontAwesomeIcon icon={faChartBar} />
+                </Link>
+              </div>
+              <div>
+                <button className="btn m-1" onClick={handleClick}>
+                  Logout
+                </button>
+              </div>
+            </div>
+
         )}
       </div>
     </nav>
