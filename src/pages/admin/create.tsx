@@ -1,3 +1,4 @@
+// Import required dependencies and components
 import SideBar from "../../components/sidebar";
 import SidebarContent from "../../components/SidebarContent";
 import { Departments, UserRole } from "@prisma/client";
@@ -7,11 +8,13 @@ import { useRouter } from "next/router";
 import { FormEvent, useState } from "react";
 import { makePostRequest } from "../../lib/apiClient";
 
+// Import required dependencies and components
 type CreateUserProps = {
   depts: Departments;
   roles: UserRole;
 };
 
+// Define the getServerSideProps function for server-side rendering
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   return {
     props: {
@@ -21,7 +24,19 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
   };
 };
 
+/**
+ * CreateUser component.
+ *
+ * This component renders a form to create a new user. It includes input fields
+ * for first name, last name, email, password, phone number, department, role,
+ * and batch (for students). The form submits the data to the server using
+ * makePostRequest function and displays any error messages.
+ *
+ * @param {CreateUserProps} props - The component's props, containing department and role enums.
+ * @returns {JSX.Element} The CreateUser component.
+ */
 export default function CreateUser({ depts, roles }: CreateUserProps) {
+  // Define state variables for form inputs and error messages
   const [fname, setFname] = useState("");
   const [lname, setLname] = useState("");
   const [email, setEmail] = useState("");
@@ -33,6 +48,7 @@ export default function CreateUser({ depts, roles }: CreateUserProps) {
   const [errorMsg, setErrorMsg] = useState("");
   const router = useRouter();
 
+  // Define the handleSubmit function for form submission
   async function handleSubmit(e: FormEvent) {
     e.preventDefault();
     const error = await makePostRequest(
@@ -56,6 +72,7 @@ export default function CreateUser({ depts, roles }: CreateUserProps) {
     }
   }
 
+  // Render the CreateUser component
   return (
     <>
       <SidebarContent>
