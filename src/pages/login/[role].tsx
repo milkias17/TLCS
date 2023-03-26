@@ -1,3 +1,4 @@
+// Import required dependencies and components
 import type { GetStaticPaths, GetStaticProps } from "next";
 import { ParsedUrlQuery } from "querystring";
 import { prettify } from "../../lib/utils";
@@ -7,10 +8,12 @@ import UserContext from "../../context/UserContext";
 import { getUser, loginUser } from "../../lib/apiClient";
 import SidebarContent from "../../components/SidebarContent";
 
+// Define the Params interface for role
 interface Params extends ParsedUrlQuery {
   role: "student" | "instructor" | "admin" | "depthead" | "college_coordinator";
 }
 
+// Define getStaticProps function for static site generation
 export const getStaticProps: GetStaticProps<Params, Params> = (ctx) => {
   const { role } = ctx.params!;
 
@@ -21,6 +24,7 @@ export const getStaticProps: GetStaticProps<Params, Params> = (ctx) => {
   };
 };
 
+// Define getStaticPaths function for dynamic static site generation
 export const getStaticPaths: GetStaticPaths = () => {
   return {
     paths: [
@@ -34,14 +38,27 @@ export const getStaticPaths: GetStaticPaths = () => {
   };
 };
 
+/**
+ * Login component.
+ *
+ * This component renders a login form for different user roles, including
+ * student, instructor, admin, department head, and college coordinator.
+ *
+ * @param {Params} role - The role for which the login form is displayed.
+ * @returns {JSX.Element} The Login component.
+ */
 export default function Login({ role }: Params) {
+  // Initialize state variables for email, password, and error message
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errorMsg, setErrorMsg] = useState("");
+  // Access setUser function from UserContext
   const { setUser } = useContext(UserContext);
 
+  // Initialize useRouter for navigation
   const router = useRouter();
 
+  // Define the handleSubmit function for handling form submission
   async function handleSubmit(e: FormEvent) {
     e.preventDefault();
     const hasError = await loginUser(
@@ -56,6 +73,7 @@ export default function Login({ role }: Params) {
     }
   }
 
+  // Render the Login component
   return (
     <SidebarContent>
       <form

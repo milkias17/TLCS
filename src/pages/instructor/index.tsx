@@ -1,3 +1,4 @@
+// Import required dependencies and components
 import UserContext from "../../context/UserContext";
 import { FormEvent, useContext, useEffect, useState } from "react";
 import SideBar from "../../components/sidebar";
@@ -7,6 +8,7 @@ import { GetServerSideProps } from "next";
 import prisma from "../../lib/prisma";
 import { Course } from "@prisma/client";
 
+// Define the getServerSideProps function for server-side rendering
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const user = await prisma.session.findUnique({
     where: {
@@ -43,24 +45,41 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
   };
 };
 
+// Type definition for InstructorDashboard component props
 type Props = {
   courses: Course[];
 };
 
+/**
+ * InstructorDashboard component.
+ *
+ * This component renders an instructor dashboard that displays a welcome
+ * message with the user's first and last name, and a table of courses
+ * assigned to the instructor. It also provides links to edit course
+ * information, add or edit course outline, and view course events.
+ *
+ * @param {Props} props - The component's props, containing a list of courses.
+ * @returns {JSX.Element} The InstructorDashboard component.
+ */
 export default function InstructorDashboard({ courses }: Props) {
+  // Access the user object from UserContext
   const { user } = useContext(UserContext);
 
+  // Define the handleClick function for handling table row click events
   function handleClick(e: FormEvent, course_code: string) {
     console.log("Course Code: " + course_code);
   }
 
+  // Render the InstructorDashboard component
   return (
     <>
+      {/* Render the welcome message and courses table */}
       <SideBarContent>
         <h1 className="text-3xl">
           Welcome {user?.fname} {user?.lname}
         </h1>
         <div className="overflow-x-auto mt-4">
+          {/* Check if courses are available and render the table */}
           {courses && courses?.length !== 0 && (
             <div className="flex flex-col gap-4">
               <h1 className="text-4xl text-center text-accent">Courses</h1>
